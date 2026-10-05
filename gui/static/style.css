@@ -1,0 +1,105 @@
+:root{
+  /* CaneSense: deep-forest greens with leaf and lime accents */
+  --bg:#06120b; --panel:#0d1f14; --panel2:#12291b; --line:#1f3d2a;
+  --txt:#e4f5ea; --muted:#7fa28d;
+  --leaf:#4ade80; --lime:#a3e635; --leaf-deep:#16a34a;
+  --accent:var(--leaf); --go:#4ade80; --stop:#ff7a7a;
+  --up:#4ade80; --down:#ff6b6b; --warn:#f5c542;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+/* Everything below is in rem, and the root size follows the screen width, so the whole
+   GUI scales: ~15px at 1280 wide, ~18.5px at 1920, ~22px at 2560, capped at 28px. */
+html{font-size:clamp(14px, calc(0.55vw + 8px), 28px)}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;color:var(--txt);display:flex;flex-direction:column;font-size:1rem;
+  font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,sans-serif;
+  background:
+    radial-gradient(120% 80% at 85% -10%, rgba(74,222,128,.12), transparent 60%),
+    radial-gradient(90% 60% at -10% 110%, rgba(163,230,53,.08), transparent 55%),
+    var(--bg);
+  background-attachment:fixed}
+
+/* ---------- header / brand ---------- */
+header{position:relative;display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:.75rem 1.4rem;flex-wrap:wrap;
+  background:linear-gradient(100deg,#0f2d1a 0%,#0a1d12 60%,#08160e 100%);
+  border-bottom:1px solid var(--line)}
+header::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;opacity:.55;
+  background:repeating-linear-gradient(90deg,var(--leaf) 0 2px,transparent 2px 14px)}   /* crop rows */
+.brand{display:flex;align-items:center;gap:.8rem}
+.logo{width:2.6rem;height:2.6rem;padding:.45rem;border-radius:50%;flex:none;
+  background:radial-gradient(circle at 30% 30%,rgba(163,230,53,.35),rgba(22,163,74,.25));
+  border:1px solid rgba(74,222,128,.5);box-shadow:0 0 1rem rgba(74,222,128,.25)}
+.logo path{fill:var(--leaf)}
+.logo .rib{fill:none;stroke:#06120b;stroke-width:1.6;stroke-linecap:round}
+h1{font-size:1.45rem;margin:0;font-weight:700;letter-spacing:.02em;line-height:1.1}
+h1 span{color:var(--lime)}
+.tagline{font-size:.82rem;color:var(--muted);margin-top:.15rem;letter-spacing:.02em}
+h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;color:var(--leaf);
+  margin:0 0 .8rem;font-weight:700;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+h2::before{content:"";width:.5rem;height:.5rem;border-radius:50% 0 50% 0;background:var(--lime);flex:none}
+h2 .tag{font-size:.78rem;text-transform:none;letter-spacing:0;color:var(--muted);font-weight:500}
+.global{display:flex;align-items:center;gap:.7rem}
+#clock{font-family:var(--mono);color:var(--muted);font-size:.85rem}
+
+main{flex:1;display:flex;flex-direction:column;gap:1.1rem;padding:1.2rem 1.4rem;min-height:0;width:100%}
+
+/* ---------- buttons ---------- */
+.btn{border:1px solid var(--line);background:var(--panel2);color:var(--txt);
+  padding:.45rem .95rem;border-radius:.5rem;cursor:pointer;font-size:.9rem;font-weight:600;transition:.15s}
+.btn:hover{border-color:var(--leaf)}
+.btn.go{background:linear-gradient(180deg,rgba(74,222,128,.22),rgba(22,163,74,.18));
+  border-color:rgba(74,222,128,.55);color:var(--leaf)}
+.btn.go:hover{background:linear-gradient(180deg,rgba(74,222,128,.32),rgba(22,163,74,.26));color:#eafff1}
+.btn.stop{background:rgba(255,107,107,.08);border-color:rgba(255,107,107,.4);color:var(--stop)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* ---------- cards ---------- */
+.topo-wrap,.feed-card,.status-card{position:relative;background:linear-gradient(180deg,var(--panel2),var(--panel));
+  border:1px solid var(--line);border-radius:.9rem;padding:1rem 1.3rem;
+  box-shadow:0 .5rem 1.5rem rgba(0,0,0,.35), inset 0 1px 0 rgba(163,230,53,.07)}
+#topo{width:100%;height:auto;display:block}
+
+/* ---------- 5G path (topology) ---------- */
+.node rect{fill:#0a1a11;stroke:var(--line);stroke-width:1.5;rx:8}
+.node text{fill:var(--txt);font-size:15px;font-weight:600}
+.node .ip{fill:var(--muted);font-size:11px;font-family:var(--mono);font-weight:400}
+.node.up rect{stroke:var(--up);filter:drop-shadow(0 0 4px rgba(74,222,128,.35))}
+.node.down rect{stroke:var(--down)}
+.node.warn rect{stroke:var(--warn)}
+.link{stroke:var(--line);stroke-width:2.5}
+.link.up{stroke:var(--up)}
+.link.down{stroke:#2c4a38;stroke-dasharray:4 4}
+.link-label{fill:var(--muted);font-size:11px;font-family:var(--mono)}
+
+/* ---------- main grid ---------- */
+.grid{flex:1;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:1.1rem;min-height:0}
+@media(max-width:62rem){.grid{grid-template-columns:1fr}}
+.feed-card,.status-card{display:flex;flex-direction:column;min-height:0}
+.feed-card #video{flex:1;min-height:0;width:100%;background:#020805;border-radius:.6rem;
+  border:1px solid rgba(74,222,128,.35);box-shadow:0 0 1.2rem rgba(74,222,128,.12);object-fit:contain}
+.feed-controls{display:flex;align-items:center;gap:.8rem;margin-top:.8rem}
+.muted{color:var(--muted);font-size:.85rem;font-family:var(--mono)}
+
+/* ---------- pipeline rows ---------- */
+#components{display:flex;flex-direction:column;gap:.6rem;overflow:auto}
+.comp{display:flex;align-items:center;gap:.8rem;padding:.65rem .8rem;background:#0a1a11;
+  border:1px solid var(--line);border-radius:.55rem}
+.dot{width:.65rem;height:.65rem;border-radius:50%;background:var(--down);flex:none;box-shadow:0 0 6px transparent}
+.dot.up{background:var(--up);box-shadow:0 0 9px rgba(74,222,128,.7)}
+.dot.warn{background:var(--warn);box-shadow:0 0 8px rgba(245,197,66,.5)}
+.comp .name{font-weight:600;width:5rem}
+.comp .detail{color:var(--muted);font-family:var(--mono);font-size:.82rem;flex:1}
+.comp .acts{display:flex;gap:.4rem}
+.comp .acts .btn{padding:.28rem .7rem;font-size:.78rem}
+.timer{min-width:8.6rem;text-align:right;font-family:var(--mono);font-size:.85rem;font-weight:600;white-space:nowrap;color:var(--muted)}
+.timer.starting{color:var(--warn)}
+.timer.ready{color:var(--up)}
+.nextbar{padding:.7rem .95rem;border-radius:.55rem;margin-bottom:.8rem;font-size:.95rem;border:1px solid}
+.nextbar b{font-weight:700}
+.nextbar.go{background:rgba(163,230,53,.09);border-color:rgba(163,230,53,.4);color:#d4f58a}
+.nextbar.wait{background:rgba(245,197,66,.09);border-color:rgba(245,197,66,.4);color:var(--warn)}
+.nextbar.done{background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.45);color:var(--leaf)}
+.nextbar .why{margin-left:.6rem;font-family:var(--mono);font-size:.8rem;opacity:.85}
+.nextbar .timer{min-width:0;color:inherit}
